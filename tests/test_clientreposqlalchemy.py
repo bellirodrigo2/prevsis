@@ -1,4 +1,5 @@
 from typing import Generator
+from uuid import uuid4
 
 import pytest
 from pydantic import EmailStr, TypeAdapter
@@ -45,7 +46,7 @@ def repo(session: Session) -> ClientRepository:
 
 # ---------- Test Helpers ----------
 def make_client(
-    id: int = -1,
+    id: str = str(uuid4()),
     name: str = "João Silva",
     email: str = "joao@email.com",
     phone: str = "1234-5678",

@@ -45,6 +45,7 @@ class SQLAlchemyClientAdapter(ClientRepository):
             self.session.flush()
 
         client_model = ClientModel(
+            id=client.id,
             name=str(client.name),
             email=str(client.email),
             phone=client.phone,

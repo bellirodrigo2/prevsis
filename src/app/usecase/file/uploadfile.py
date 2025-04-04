@@ -21,9 +21,10 @@ class UploadFile(UseCase):
         file_name: str,
         valid_for: timedelta,
         draft: bool = False,
-    ) -> None:
+    ) -> str:
 
         hash = self.hash.generate_hash(file_bytes)
 
         path = self.storage.save_file_bytes(file_bytes)
-        self.storage.save_file(hook_id, file_name, path, valid_for, draft)
+        id = self.storage.save_file(hook_id, file_name, path, valid_for, draft)
+        return id

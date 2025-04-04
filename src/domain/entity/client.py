@@ -8,7 +8,7 @@ from domain.vo.personname import Name
 
 
 class Client(BaseModel):
-    id: int
+    id: str
     name: Name
     # adicionar campo business
     email: EmailStr

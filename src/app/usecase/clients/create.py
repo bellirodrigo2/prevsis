@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from email.headerregistry import Address
-from typing import Optional
+from typing import Callable, Optional
 
 from pydantic import EmailStr, TypeAdapter
 
@@ -14,6 +14,7 @@ from domain.vo.personname import name_validator
 @dataclass
 class CreateClient(UseCase):
     repo: ClientRepository
+    makeid: Callable[[], str]
 
     def execute(
         self,
@@ -29,7 +30,7 @@ class CreateClient(UseCase):
         cpf_obj = cpf_validator(cpf) if cpf else None
 
         client = Client(
-            id=-1,
+            id=self.makeid(),
             name=nome,
             email=email_obj,
             phone=phone,

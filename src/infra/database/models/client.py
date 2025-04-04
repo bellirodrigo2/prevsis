@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from infra.database.mixins import TimestampMixin
 from infra.database.models.base import Base
+from infra.database.models.rfp import RFPModel
 
 
 class AddressModel(Base):
@@ -20,7 +21,7 @@ class AddressModel(Base):
 class ClientModel(Base, TimestampMixin):
     __tablename__ = "clients"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     name: Mapped[str]
     email: Mapped[str]
     phone: Mapped[str | None]
