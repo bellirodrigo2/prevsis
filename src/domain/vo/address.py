@@ -3,12 +3,9 @@ from pydantic import BaseModel
 
 class Address(BaseModel):
 
-    street: str
-    number: str
-    neighborhood: str
+    street: str | None
+    number: str | None
+    neighborhood: str | None
     city: str
     state: str
-    zip_code: str
-
-    class Config:
-        orm_mode = True
+    zip_code: str | None

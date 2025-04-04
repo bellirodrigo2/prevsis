@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from pydantic import BaseModel, BeforeValidator
+from pydantic import BaseModel, BeforeValidator, TypeAdapter
 
 
 def validate_cpf(cpf: str) -> str:
@@ -34,5 +34,10 @@ def validate_cpf(cpf: str) -> str:
     return cpf
 
 
-class CPF(BaseModel):
-    value: Annotated[str, BeforeValidator(validate_cpf)]
+CPF = Annotated[str, BeforeValidator(validate_cpf)]
+
+cpf_adapter = TypeAdapter(CPF)
+
+
+def cpf_validator(cpf: str) -> str:
+    return cpf_adapter.validate_python(cpf)
