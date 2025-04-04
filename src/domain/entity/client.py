@@ -1,8 +1,8 @@
-from email.headerregistry import Address
 from typing import Optional
 
 from pydantic import BaseModel, EmailStr
 
+from domain.vo.address import Address
 from domain.vo.cpf import CPF
 from domain.vo.personname import Name
 
@@ -10,6 +10,7 @@ from domain.vo.personname import Name
 class Client(BaseModel):
     id: int
     name: Name
+    # adicionar campo business
     email: EmailStr
     phone: Optional[str] = None
     cpf: Optional[CPF] = None

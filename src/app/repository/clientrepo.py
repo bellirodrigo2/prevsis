@@ -1,13 +1,16 @@
+from dataclasses import dataclass
 from typing import Optional, Protocol, Sequence
 
 from domain.entity.client import Client
 
 
+@dataclass
 class ClientAlreadyExistsError(Exception):
-    def __init__(self, field: str, value: str):
-        self.field = field
-        self.value = value
-        super().__init__(f"Já existe um cliente com o mesmo {field}: {value}")
+    field: str
+    value: str
+
+    def __post_init__(self) -> None:
+        super().__init__(f"Já existe um cliente com o mesmo {self.field}: {self.value}")
 
 
 class ClientRepository(Protocol):

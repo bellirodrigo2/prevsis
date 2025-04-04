@@ -1,11 +1,8 @@
 from sqlalchemy import ForeignKey, String
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from infra.database.mixins import TimestampMixin
-
-
-class Base(DeclarativeBase):
-    pass
+from infra.database.models.base import Base
 
 
 class AddressModel(Base):
@@ -33,3 +30,7 @@ class ClientModel(Base, TimestampMixin):
         ForeignKey("addresses.id"), nullable=True
     )
     addr: Mapped[AddressModel | None] = relationship()
+
+    rfps = relationship(
+        "RFPModel", back_populates="client", cascade="all, delete-orphan"
+    )

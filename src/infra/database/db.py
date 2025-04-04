@@ -22,3 +22,8 @@ def get_db(sessionLocal: sessionmaker[Session]):
         raise
     finally:
         db.close()
+
+
+def drop_all(sessionLocal: sessionmaker[Session], base: type[DeclarativeBase]):
+    engine = sessionLocal.kw["bind"]
+    base.metadata.drop_all(engine)

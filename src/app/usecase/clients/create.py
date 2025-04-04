@@ -4,7 +4,7 @@ from typing import Optional
 
 from pydantic import EmailStr, TypeAdapter
 
-from app.repository.clientrepo import ClientRepository
+from app.repository.clientrepo import ClientAlreadyExistsError, ClientRepository
 from app.usecase.usecase import UseCase
 from domain.entity.client import Client
 from domain.vo.cpf import cpf_validator
@@ -29,7 +29,7 @@ class CreateClient(UseCase):
         cpf_obj = cpf_validator(cpf) if cpf else None
 
         client = Client(
-            id=-1,  # será sobrescrito no repositório após persistência
+            id=-1,
             name=nome,
             email=email_obj,
             phone=phone,
@@ -37,5 +37,11 @@ class CreateClient(UseCase):
             addr=addr,
         )
 
-        self.repo.save(client)
+        try:
+            self.repo.save(client)
+        except ClientAlreadyExistsError as e:
+            raise e  # ou fazer log, ou mapear para outro erro de camada superior
+        except Exception as e:
+            raise Exception(f"Erro ao salvar cliente: {e}") from e
+
         return client
